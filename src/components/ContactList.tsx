@@ -8,7 +8,10 @@ type PropsType = {
 }
 
 const ContactList: FC<PropsType> = ({ contacts, setActiveUser }) => {
-  const onUserClick = (item: ContactType, e: any) => {
+  const onUserClick = (
+    item: ContactType,
+    e: React.MouseEvent<HTMLElement, MouseEvent>
+  ) => {
     let parent = document.querySelector('.userList')
     let userItem = parent!.querySelectorAll('.userItem')
     let target = e.currentTarget

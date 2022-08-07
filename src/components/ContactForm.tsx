@@ -1,10 +1,11 @@
 import { nanoid } from '@reduxjs/toolkit'
-import { Button, Form, Input, Row } from 'antd'
+import { Button, Form, Row } from 'antd'
 
-import { FC, useState } from 'react'
+import { FC } from 'react'
 import { AddContactType } from '../api/usersAPI'
 import { ContactType } from '../types/ContactType'
-import { rules } from '../utils/rules'
+import { drawFieldsForm } from '../utils/drawFields'
+import { getContactWithFields } from '../utils/getContactWithFields'
 
 type PropsType = {
   id: string
@@ -19,16 +20,7 @@ const ContactForm: FC<PropsType> = ({ id, contacts, submit }) => {
     const data: AddContactType = {
       id: id,
       data: {
-        contactList: [
-          {
-            id: nanoid(),
-            description: form.getFieldValue('Description'),
-            firstName: form.getFieldValue('First Name'),
-            lastName: form.getFieldValue('Last Name'),
-            number: form.getFieldValue('Number'),
-          },
-          ...contacts,
-        ],
+        contactList: [getContactWithFields(nanoid(), form), ...contacts],
       },
     }
     submit(data)
@@ -37,23 +29,7 @@ const ContactForm: FC<PropsType> = ({ id, contacts, submit }) => {
 
   return (
     <Form onFinish={submitForm} form={form}>
-      <Form.Item
-        label="First Name"
-        name="First Name"
-        rules={[rules.required()]}
-      >
-        <Input autoComplete={'off'} />
-      </Form.Item>
-      <Form.Item label="Last Name" name="Last Name">
-        <Input autoComplete={'off'} />
-      </Form.Item>
-      <Form.Item label="Number" name="Number" rules={[rules.required()]}>
-        <Input autoComplete={'off'} />
-      </Form.Item>
-      <Form.Item label="Description" name="Description">
-        <Input autoComplete={'off'} />
-      </Form.Item>
-
+      {drawFieldsForm()}
       <Form.Item wrapperCol={{ offset: 8, span: 16 }}>
         <Row justify="end">
           <Button type="primary" htmlType="submit">

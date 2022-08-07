@@ -1,8 +1,9 @@
 import { createSlice, PayloadAction } from '@reduxjs/toolkit'
 import { ContactType } from '../../../types/ContactType'
-import { addContact, deleteContact, fetchContacts } from './contactAction'
+import { commonPending, commonReject } from '../../../utils/commonReducers'
+import { fetchContacts, modifyContact } from './contactAction'
 
-type InitialStateType = {
+export type InitialStateType = {
   contacts: Array<ContactType>
   isLoading: boolean
   error: string | null
@@ -20,8 +21,7 @@ export const contactSlice = createSlice({
   reducers: {},
   extraReducers: {
     [fetchContacts.pending.type]: (state) => {
-      state.error = null
-      state.isLoading = true
+      commonPending(state)
     },
     [fetchContacts.fulfilled.type]: (
       state,
@@ -31,30 +31,16 @@ export const contactSlice = createSlice({
       state.contacts = action.payload
     },
     [fetchContacts.rejected.type]: (state, action: PayloadAction<string>) => {
-      state.isLoading = false
-      state.error = action.payload
+      commonReject(state, action)
     },
-    [addContact.pending.type]: (state) => {
-      state.error = null
-      state.isLoading = true
+    [modifyContact.pending.type]: (state) => {
+      commonPending(state)
     },
-    [addContact.pending.type]: (state) => {
+    [modifyContact.fulfilled.type]: (state) => {
       state.isLoading = false
     },
-    [addContact.pending.type]: (state, action: PayloadAction<string>) => {
-      state.isLoading = false
-      state.error = action.payload
-    },
-    [deleteContact.pending.type]: (state) => {
-      state.error = null
-      state.isLoading = true
-    },
-    [deleteContact.fulfilled.type]: (state) => {
-      state.isLoading = false
-    },
-    [deleteContact.rejected.type]: (state, action: PayloadAction<string>) => {
-      state.isLoading = false
-      state.error = action.payload
+    [modifyContact.rejected.type]: (state, action: PayloadAction<string>) => {
+      commonReject(state, action)
     },
   },
 })

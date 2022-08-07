@@ -1,5 +1,5 @@
 import { Layout } from 'antd'
-import React, { FC } from 'react'
+import { FC } from 'react'
 import { Outlet } from 'react-router-dom'
 import NavBar from './NavBar'
 

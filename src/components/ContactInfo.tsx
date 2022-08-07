@@ -1,23 +1,22 @@
-import { Button, Col, Form, Input, Layout, Row } from 'antd'
+import { Button, Form, Layout, Row } from 'antd'
 import { FC, useEffect, useState } from 'react'
 import { AddContactType } from '../api/usersAPI'
 import { ContactType } from '../types/ContactType'
-import { rules } from '../utils/rules'
+import { drawFieldsInfo } from '../utils/drawFields'
+import { getContactWithFields } from '../utils/getContactWithFields'
 
 type PropsType = {
   user: ContactType | null
   id: string
-  onDelete: (data: AddContactType) => void
-  onSave: (data: AddContactType) => void
+  onSaveOrDeleteContact: (data: AddContactType) => void
   contacts: Array<ContactType>
 }
 
 const ContactInfo: FC<PropsType> = ({
   user,
   id,
-  onDelete,
+  onSaveOrDeleteContact,
   contacts,
-  onSave,
 }) => {
   const [editMode, setEditMode] = useState(false)
 
@@ -35,26 +34,23 @@ const ContactInfo: FC<PropsType> = ({
     setEditMode(false)
   }, [user])
 
-  const deleteContact = () => {
+  const deleteContact = (e: React.MouseEvent<HTMLElement, MouseEvent>) => {
     const data: AddContactType = {
       id: id,
       data: {
         contactList: contacts.filter((el) => el.id !== user?.id),
       },
     }
-    onDelete(data)
+    onSaveOrDeleteContact(data)
   }
   const onEditClick = () => {
     setEditMode(true)
   }
-  const submitForm = () => {
-    const modifiedUser: ContactType = {
-      id: user?.id as string,
-      description: form.getFieldValue('description'),
-      firstName: form.getFieldValue('firstName'),
-      lastName: form.getFieldValue('lastName'),
-      number: form.getFieldValue('number'),
-    }
+  const submitForm = (e: React.MouseEvent<HTMLElement, MouseEvent>) => {
+    const modifiedUser: ContactType = getContactWithFields(
+      user?.id as string,
+      form
+    )
     const data: AddContactType = {
       id: id,
       data: {
@@ -64,7 +60,7 @@ const ContactInfo: FC<PropsType> = ({
         ],
       },
     }
-    onSave(data)
+    onSaveOrDeleteContact(data)
     setEditMode(false)
   }
   const onCancelClick = () => {
@@ -78,54 +74,7 @@ const ContactInfo: FC<PropsType> = ({
     return (
       <Layout>
         <Form onFinish={submitForm} form={form} className="formInfo">
-          <Row align={'middle'} className="rowInfo">
-            <p className="infoText">Имя:</p>
-            {editMode ? (
-              <Form.Item
-                name="firstName"
-                rules={[rules.required()]}
-                className="infoInput"
-              >
-                <Input autoComplete={'off'} />
-              </Form.Item>
-            ) : (
-              <p className="infoText">{user.firstName}</p>
-            )}
-          </Row>
-          <Row align={'middle'} className="rowInfo">
-            <p className="infoText">Фамилия:</p>
-            {editMode ? (
-              <Form.Item name="lastName" className="infoInput">
-                <Input autoComplete={'off'} />
-              </Form.Item>
-            ) : (
-              <p className="infoText">{user.lastName}</p>
-            )}
-          </Row>
-          <Row align={'middle'} className="rowInfo">
-            <p className="infoText">Телефон:</p>
-            {editMode ? (
-              <Form.Item
-                name="number"
-                rules={[rules.required()]}
-                className="infoInput"
-              >
-                <Input autoComplete={'off'} />
-              </Form.Item>
-            ) : (
-              <p className="infoText">{user.number}</p>
-            )}
-          </Row>
-          <Row align={'middle'} className="rowInfo">
-            <p className="infoText">Описание:</p>
-            {editMode ? (
-              <Form.Item name="description" className="infoInput">
-                <Input autoComplete={'off'} />
-              </Form.Item>
-            ) : (
-              <p className="infoText">{user.description}</p>
-            )}
-          </Row>
+          {drawFieldsInfo(editMode, user)}
           <Row>
             {editMode && (
               <>

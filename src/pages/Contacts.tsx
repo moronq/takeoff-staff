@@ -1,17 +1,16 @@
-import { Button, Col, Layout, Modal, Row, Typography } from 'antd'
+import { Button, Col, Layout, Row, Typography } from 'antd'
 import { useEffect, useState } from 'react'
 import { AddContactType } from '../api/usersAPI'
-import ContactForm from '../components/ContactForm'
+import AddContactModal from '../components/AddContactModal'
 import ContactInfo from '../components/ContactInfo'
 import ContactList from '../components/ContactList'
 import { useAppDispatch, useAppSelector } from '../hooks/hook'
 import {
-  addContact,
-  changeContact,
-  deleteContact,
   fetchContacts,
+  modifyContact,
 } from '../store/slices/contact/contactAction'
 import { ContactType } from '../types/ContactType'
+import { clearSelection } from '../utils/clearSelection'
 
 const { Title } = Typography
 
@@ -27,22 +26,19 @@ const Contacts = () => {
   }, [])
 
   const addNewContact = (data: AddContactType) => {
-    dispatch(addContact(data)).then((res) =>
+    dispatch(modifyContact(data)).then((res) =>
       dispatch(fetchContacts(id as string))
     )
     setModalVisible(false)
+    setActiveUser(null)
+    clearSelection()
   }
-  const onDeleteContact = (data: AddContactType) => {
-    dispatch(deleteContact(data)).then((res) =>
+  const onSaveOrDeleteContact = (data: AddContactType) => {
+    dispatch(modifyContact(data)).then((res) =>
       dispatch(fetchContacts(id as string))
     )
     setActiveUser(null)
-  }
-  const onSaveChangeContact = (data: AddContactType) => {
-    dispatch(changeContact(data)).then((res) => {
-      dispatch(fetchContacts(id as string))
-    })
-    setActiveUser(null)
+    clearSelection()
   }
 
   return (
@@ -65,24 +61,18 @@ const Contacts = () => {
           <ContactInfo
             user={activeUser}
             id={id as string}
-            onDelete={onDeleteContact}
-            onSave={onSaveChangeContact}
+            onSaveOrDeleteContact={onSaveOrDeleteContact}
             contacts={contacts}
           />
         </Col>
       </Row>
-      <Modal
-        title="Добавить контакт"
-        visible={modalVisible}
-        onCancel={() => setModalVisible(false)}
-        footer={null}
-      >
-        <ContactForm
-          id={id as string}
-          contacts={contacts}
-          submit={addNewContact}
-        />
-      </Modal>
+      <AddContactModal
+        addNewContact={addNewContact}
+        contacts={contacts}
+        id={id as string}
+        modalVisible={modalVisible}
+        setModalVisible={setModalVisible}
+      />
     </Layout>
   )
 }
