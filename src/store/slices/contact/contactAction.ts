@@ -21,7 +21,7 @@ export const addContact = createAsyncThunk(
   'contact/addContact',
   async (data: AddContactType, thunkAPI) => {
     try {
-      const response = await usersAPI.addContact(data)
+      const response = await usersAPI.modifyContact(data)
       if (response.status === 200) {
         return response.data
       } else {
@@ -36,7 +36,22 @@ export const deleteContact = createAsyncThunk(
   'contact/addContact',
   async (data: AddContactType, thunkAPI) => {
     try {
-      const response = await usersAPI.deleteContact(data)
+      const response = await usersAPI.modifyContact(data)
+      if (response.status === 200) {
+        return response.data
+      } else {
+        thunkAPI.rejectWithValue('Ошибка при загрузке контактов')
+      }
+    } catch (e) {
+      thunkAPI.rejectWithValue('Ошибка при загрузке контактов')
+    }
+  }
+)
+export const changeContact = createAsyncThunk(
+  'contact/changeContact',
+  async (data: AddContactType, thunkAPI) => {
+    try {
+      const response = await usersAPI.modifyContact(data)
       if (response.status === 200) {
         return response.data
       } else {

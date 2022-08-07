@@ -25,10 +25,7 @@ export const usersAPI = {
       .get<GetContactsResponseType>(`http://localhost:3001/contacts/${id}`)
       .then((response: AxiosResponse<GetContactsResponseType>) => response.data)
   },
-  addContact: async (data: AddContactType) => {
-    return axios.patch(`http://localhost:3001/contacts/${data.id}`, data.data)
-  },
-  deleteContact: async (data: AddContactType) => {
+  modifyContact: async (data: AddContactType) => {
     return axios.patch(`http://localhost:3001/contacts/${data.id}`, data.data)
   },
 }

@@ -24,14 +24,14 @@ const NavBar: FC = () => {
               theme="dark"
               mode="horizontal"
               selectable={false}
-              items={[{ key: 'logout', label: 'Log out' }]}
+              items={[{ key: 'logout', label: 'Выйти' }]}
             />
           ) : (
             <Menu
               theme="dark"
               mode="horizontal"
               selectable={false}
-              items={[{ key: 'login', label: <Link to={'login'}>Login</Link> }]}
+              items={[{ key: 'login', label: <Link to={'login'}>Войти</Link> }]}
             />
           )}
         </Col>

@@ -7,6 +7,7 @@ import ContactList from '../components/ContactList'
 import { useAppDispatch, useAppSelector } from '../hooks/hook'
 import {
   addContact,
+  changeContact,
   deleteContact,
   fetchContacts,
 } from '../store/slices/contact/contactAction'
@@ -37,13 +38,19 @@ const Contacts = () => {
     )
     setActiveUser(null)
   }
+  const onSaveChangeContact = (data: AddContactType) => {
+    dispatch(changeContact(data)).then((res) => {
+      dispatch(fetchContacts(id as string))
+    })
+    setActiveUser(null)
+  }
 
   return (
     <Layout className="h100min">
       <Row justify="center">
         <Title level={4}>Список контактов</Title>
       </Row>
-      <Row>
+      <Row style={{ marginBottom: '15px' }}>
         <Col offset={1} span={5}>
           <Button type="primary" onClick={() => setModalVisible(true)}>
             Добавить контакт
@@ -59,6 +66,7 @@ const Contacts = () => {
             user={activeUser}
             id={id as string}
             onDelete={onDeleteContact}
+            onSave={onSaveChangeContact}
             contacts={contacts}
           />
         </Col>
