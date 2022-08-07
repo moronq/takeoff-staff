@@ -75,7 +75,7 @@ const ContactInfo: FC<PropsType> = ({
       <Layout>
         <Form onFinish={submitForm} form={form} className="formInfo">
           {drawFieldsInfo(editMode, user)}
-          <Row>
+          <Row className="buttonRow">
             {editMode && (
               <>
                 <Button type="primary" htmlType="submit">

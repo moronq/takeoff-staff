@@ -24,10 +24,13 @@ const ContactList: FC<PropsType> = ({ contacts, setActiveUser }) => {
     setActiveUser(item)
   }
 
+  if (contacts.length === 0) {
+    return <p>"Список контактов пуст =("</p>
+  }
+
   return (
     <List
       itemLayout="horizontal"
-      className="userList"
       dataSource={contacts}
       renderItem={(item) => (
         <List.Item className="userItem" onClick={(e) => onUserClick(item, e)}>

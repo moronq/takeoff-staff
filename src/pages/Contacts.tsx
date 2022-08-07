@@ -55,7 +55,9 @@ const Contacts = () => {
       </Row>
       <Row>
         <Col span={7} offset={1}>
-          <ContactList contacts={contacts} setActiveUser={setActiveUser} />
+          <div className="userList">
+            <ContactList contacts={contacts} setActiveUser={setActiveUser} />
+          </div>
         </Col>
         <Col span={14} offset={1}>
           <ContactInfo

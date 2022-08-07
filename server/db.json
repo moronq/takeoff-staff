@@ -38,11 +38,27 @@
     },
     {
       "id": 2,
-      "contactList": []
+      "contactList": [
+        {
+          "id": "4jeJLLnxNMmlQ4vW8Rl_K",
+          "description": "qe",
+          "firstName": "qweqwe",
+          "lastName": "§jewrhfkdjgkdfg",
+          "number": "ewqje"
+        }
+      ]
     },
     {
       "id": 3,
-      "contactList": []
+      "contactList": [
+        {
+          "id": "dm9T6ntjU0n5BkLrR2voY",
+          "description": "Vor",
+          "firstName": "Volodya",
+          "lastName": "Putin",
+          "number": "+6666666"
+        }
+      ]
     }
   ]
 }

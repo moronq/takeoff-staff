@@ -44,3 +44,7 @@
   height: calc(100vh - 180px);
   overflow-y: scroll;
 }
+.buttonRow {
+  display: flex;
+  gap: 15px;
+}
