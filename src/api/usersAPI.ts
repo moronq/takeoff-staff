@@ -1,17 +1,17 @@
 import axios, { AxiosResponse } from 'axios'
+import { ContactType } from '../types/ContactType'
 import { PersonType } from '../types/PersonType'
-import { UserType } from '../types/UserType'
 
 export type AddContactType = {
-  id: number
+  id: string
   data: {
-    contacts: Array<UserType>
+    contactList: Array<ContactType>
   }
 }
 
 export type GetContactsResponseType = {
   id: number
-  contacts: Array<UserType>
+  contactList: Array<ContactType>
 }
 
 export const usersAPI = {
@@ -20,20 +20,12 @@ export const usersAPI = {
       .get<Array<PersonType>>('http://localhost:3001/person')
       .then((response: AxiosResponse<Array<PersonType>>) => response.data)
   },
-  getUsers: async () => {
-    return axios
-      .get<Array<UserType>>('http://localhost:3001/users')
-      .then((response: AxiosResponse<Array<UserType>>) => response.data)
-  },
   getContacts: async (id: string) => {
     return axios
       .get<GetContactsResponseType>(`http://localhost:3001/contacts/${id}`)
       .then((response: AxiosResponse<GetContactsResponseType>) => response.data)
   },
-  addContact: async (data: AddContactType) => {
-    return axios.patch(`http://localhost:3001/contacts/${data.id}`, data.data)
-  },
-  deleteContact: async (data: AddContactType) => {
+  modifyContact: async (data: AddContactType) => {
     return axios.patch(`http://localhost:3001/contacts/${data.id}`, data.data)
   },
 }
