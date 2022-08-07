@@ -1,7 +1,7 @@
 import auth from './slices/auth/authSlice'
-import profile from './slices/profile/profileSlice'
+import contact from './slices/contact/contactSlice'
 
 export default {
   auth,
-  profile,
+  contact,
 }

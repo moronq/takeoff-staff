@@ -1,4 +1,4 @@
-import { UserType } from './UserType'
+import { ContactType } from './ContactType'
 
 export type PersonType = {
   id: number
@@ -7,5 +7,5 @@ export type PersonType = {
 }
 export type PersonCotactsType = {
   id: number
-  contacts: Array<UserType>
+  contacts: Array<ContactType>
 }

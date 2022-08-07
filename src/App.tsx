@@ -3,8 +3,8 @@ import { Navigate, Route, Routes } from 'react-router-dom'
 import './App.css'
 import LayoutRouter from './components/LayoutRouter'
 import { useAppDispatch, useAppSelector } from './hooks/hook'
+import Contacts from './pages/Contacts'
 import Login from './pages/Login'
-import Profile from './pages/Profile'
 import { setAuth, setUser } from './store/slices/auth/authSlice'
 import { PersonType } from './types/PersonType'
 
@@ -29,14 +29,14 @@ const App: FC = () => {
       <Route path="/" element={<LayoutRouter />}>
         <Route
           path="login"
-          element={isAuth ? <Navigate to={'/profile'} replace /> : <Login />}
+          element={isAuth ? <Navigate to={'/contacts'} replace /> : <Login />}
         />
         <Route
-          path="profile"
-          element={!isAuth ? <Navigate to={'/login'} replace /> : <Profile />}
+          path="contacts"
+          element={!isAuth ? <Navigate to={'/login'} replace /> : <Contacts />}
         />
-        <Route path="*" element={<Navigate to={'/profile'} replace />} />
-        <Route path="/" element={<Navigate to={'/profile'} replace />} />
+        <Route path="*" element={<Navigate to={'/contacts'} replace />} />
+        <Route path="/" element={<Navigate to={'/contacts'} replace />} />
       </Route>
     </Routes>
   )
