@@ -1,26 +1,45 @@
-import React from 'react';
-import logo from './logo.svg';
-import './App.css';
+import { FC, useEffect } from 'react'
+import { Navigate, Route, Routes } from 'react-router-dom'
+import './App.css'
+import LayoutRouter from './components/LayoutRouter'
+import { useAppDispatch, useAppSelector } from './hooks/hook'
+import Login from './pages/Login'
+import Profile from './pages/Profile'
+import { setAuth, setUser } from './store/slices/auth/authSlice'
+import { PersonType } from './types/PersonType'
 
-function App() {
+const App: FC = () => {
+  const { isAuth } = useAppSelector((state) => state.auth)
+  const dispatch = useAppDispatch()
+
+  useEffect(() => {
+    if (localStorage.getItem('auth')) {
+      dispatch(
+        setUser({
+          username: localStorage.getItem('user' || ''),
+          id: parseInt(localStorage.getItem('id' || '') as string),
+        } as PersonType)
+      )
+      dispatch(setAuth(true))
+    }
+  }, [])
+
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.tsx</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
-  );
+    <Routes>
+      <Route path="/" element={<LayoutRouter />}>
+        <Route
+          path="login"
+          element={isAuth ? <Navigate to={'/profile'} replace /> : <Login />}
+        />
+        <Route
+          path="profile"
+          element={!isAuth ? <Navigate to={'/login'} replace /> : <Profile />}
+        />
+        <Route path="*" element={<Navigate to={'/profile'} replace />} />
+        <Route path="/" element={<Navigate to={'/profile'} replace />} />
+      </Route>
+    </Routes>
+  )
 }
 
-export default App;
+export default App
