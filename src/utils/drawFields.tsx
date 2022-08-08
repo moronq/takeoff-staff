@@ -43,6 +43,7 @@ export const drawFieldsForm: () => Array<JSX.Element> = () => {
   return arr.map((el) => {
     return (
       <Form.Item
+        key={el[0]}
         label={el[1]}
         name={el[0]}
         rules={
